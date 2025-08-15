@@ -22,13 +22,14 @@ function App() {
     <div>
       <h1>Filet Crochet Custom Pattern Builder</h1>
 
-      <div>
+      <div className="inputs">
         <label>
           Rows:
           <input
             type="number"
             value={rows}
             min={1}
+            max={50}
             onChange={(e) => setRows(Number(e.target.value))}
           />
         </label>
@@ -38,12 +39,13 @@ function App() {
             type="number"
             value={cols}
             min={1}
+            max={50}
             onChange={(e) => setCols(Number(e.target.value))}
           />
         </label>
       </div>
 
-      <div>
+      <div className="pixel-grid">
         {grid.map((row, rowIndex) => (
           <div key={rowIndex}>
             {row.map((pixel, colIndex) => (
