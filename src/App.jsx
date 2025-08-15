@@ -1,10 +1,59 @@
+import { useState } from "react";
+
 function App() {
+  const [rows, setRows] = useState(10);
+  const [cols, setCols] = useState(10);
+
+  function createGrid(rows, cols) {
+    const grid = [];
+    for (let i = 0; i < rows; i++) {
+      const row = [];
+      for (let j = 0; j < cols; j++) {
+        row.push(0); 
+      }
+      grid.push(row);
+    }
+    return grid;
+  }
+
+  const grid = createGrid(rows, cols);
 
   return (
-    <>
-     <h1>Filet Crochet Custom Pixel Grid & Pattern Builder</h1>
-    </>
-  )
+    <div>
+      <h1>Filet Crochet Custom Pattern Builder</h1>
+
+      <div>
+        <label>
+          Rows:
+          <input
+            type="number"
+            value={rows}
+            min={1}
+            onChange={(e) => setRows(Number(e.target.value))}
+          />
+        </label>
+        <label>
+          Columns:
+          <input
+            type="number"
+            value={cols}
+            min={1}
+            onChange={(e) => setCols(Number(e.target.value))}
+          />
+        </label>
+      </div>
+
+      <div>
+        {grid.map((row, rowIndex) => (
+          <div key={rowIndex}>
+            {row.map((pixel, colIndex) => (
+              <span key={colIndex}> ▢ </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;

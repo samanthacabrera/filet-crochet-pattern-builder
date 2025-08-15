@@ -1,1 +1,1 @@
-# Filet Crochet Custom Pixel Grid & Pattern Builder
+# Filet Crochet Custom Pattern Builder
