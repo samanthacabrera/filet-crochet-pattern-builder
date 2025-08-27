@@ -79,21 +79,73 @@ function App() {
           padding: "0.5rem",
         }}
       >
-        <div className="pixel-grid">
-          <div style={{ display: "flex", marginLeft: "2rem" }}>
+        {/* col label */}
+        <div style={{ display: "flex", marginLeft: "4rem" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${cols}, minmax(20px, 1fr))`,
+              flex: 1,
+            }}
+          >
+            {Array.from({ length: cols }).map((_, colIndex) => (
+              <div
+                key={colIndex}
+                style={{
+                  textAlign: "center",
+                  fontSize: "0.75rem",
+                  color: "#555",
+                }}
+              >
+                {colIndex + 1}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* col toggle */}
+        <div style={{ display: "flex", marginLeft: "4rem", marginBottom: "4px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${cols}, minmax(20px, 1fr))`,
+              flex: 1,
+            }}
+          >
             {Array.from({ length: cols }).map((_, colIndex) => (
               <button
                 key={colIndex}
                 onClick={() => toggleCol(colIndex)}
-                style={{ margin: "2px", fontSize: "0.8rem" }}
+                style={{ fontSize: "0.8rem" }}
               >
                 ⬇
               </button>
             ))}
           </div>
+        </div>
 
-          {grid.map((row, rowIndex) => (
-            <div key={rowIndex} style={{ display: "flex", alignItems: "center" }}>
+        {grid
+          .map((row, rowIndex) => ({ row, rowIndex }))
+          .reverse()
+          .map(({ row, rowIndex }, displayIndex) => (
+            <div
+              key={rowIndex}
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              {/* row label */}
+              <div
+                style={{
+                  width: "2rem",
+                  textAlign: "right",
+                  marginRight: "4px",
+                  fontSize: "0.75rem",
+                  color: "#555",
+                }}
+              >
+                {rows - displayIndex}
+              </div>
+
+              {/* row toggle */}
               <button
                 onClick={() => toggleRow(rowIndex)}
                 style={{ marginRight: "4px", fontSize: "0.8rem" }}
@@ -124,9 +176,7 @@ function App() {
               </div>
             </div>
           ))}
-        </div>
       </div>
-
     </div>
   );
 }
