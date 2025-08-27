@@ -1,18 +1,33 @@
 import { useState } from "react";
 
 function App() {
-  const [rows, setRows] = useState(10);
-  const [cols, setCols] = useState(10);
-  const [grid, setGrid] = useState(createGrid(10, 10));
-
   function createGrid(rows, cols) {
-    return Array.from({ length: rows }, () => Array(cols).fill(0));
+  return Array.from({ length: rows }, () => Array(cols).fill(0));
   }
+  
+  const [rows, setRows] = useState("10"); 
+  const [cols, setCols] = useState("10"); 
+  const [grid, setGrid] = useState(createGrid(10, 10));
+  const [error, setError] = useState("");
 
-  // update grid whenever rows/cols change
-  const handleResize = (newRows, newCols) => {
-    setRows(newRows);
-    setCols(newCols);
+  const handleResize = (newRowsStr, newColsStr) => {
+    const newRows = parseInt(newRowsStr, 10);
+    const newCols = parseInt(newColsStr, 10);
+
+    if (!newRows || !newCols) {
+      setRows(newRowsStr);
+      setCols(newColsStr);
+      return;
+    }
+
+    if (newRows > 100 || newCols > 100) {
+      setError("Error: Maximum grid size is 100x100.");
+      return;
+    }
+
+    setError("");
+    setRows(newRowsStr);
+    setCols(newColsStr);
     setGrid(createGrid(newRows, newCols));
   };
 
@@ -48,25 +63,35 @@ function App() {
 
       <div className="inputs" style={{ marginBottom: "1rem" }}>
         <label>
-          Rows:
-          <input
-            type="number"
-            value={rows}
-            min={1}
-            max={50}
-            onChange={(e) => handleResize(Number(e.target.value), cols)}
-          />
+        rows: 
+        <input
+          type="number"
+          value={rows}
+          min={1}
+          max={100}
+          onChange={(e) => handleResize(e.target.value, cols)}
+        />
         </label>
         <label>
-          Columns:
-          <input
-            type="number"
-            value={cols}
-            min={1}
-            max={50}
-            onChange={(e) => handleResize(rows, Number(e.target.value))}
-          />
+        columns:
+        <input
+          type="number"
+          value={cols}
+          min={1}
+          max={100}
+          onChange={(e) => handleResize(rows, e.target.value)}
+        />
         </label>
+      </div>
+
+      {error && (
+        <div style={{ color: "red", marginBottom: "1rem" }}>
+          {error}
+        </div>
+      )}
+
+      <div style={{ opacity: "50%", fontSize: "15px" }}>
+        <p>Maximum grid size is 100x100</p>
       </div>
 
       <div
@@ -75,7 +100,6 @@ function App() {
           maxWidth: "100vw",
           height: "80vh",
           overflow: "auto",
-          background: "#f9f9f9",
           padding: "0.5rem",
         }}
       >
@@ -104,7 +128,9 @@ function App() {
         </div>
 
         {/* col toggle */}
-        <div style={{ display: "flex", marginLeft: "4rem", marginBottom: "4px" }}>
+        <div
+          style={{ display: "flex", marginLeft: "4rem", marginBottom: "4px" }}
+        >
           <div
             style={{
               display: "grid",
