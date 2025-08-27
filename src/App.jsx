@@ -69,18 +69,18 @@ function App() {
         </label>
       </div>
 
-      {/* scrollable container */}
       <div
         style={{
-          width: "80vw",
+          width: "100%",
+          maxWidth: "100vw",
           height: "80vh",
           overflow: "auto",
           background: "#f9f9f9",
+          padding: "0.5rem",
         }}
       >
         <div className="pixel-grid">
-  
-          <div style={{ display: "flex", marginLeft: "1.2em" }}>
+          <div style={{ display: "flex", marginLeft: "2rem" }}>
             {Array.from({ length: cols }).map((_, colIndex) => (
               <button
                 key={colIndex}
@@ -94,7 +94,6 @@ function App() {
 
           {grid.map((row, rowIndex) => (
             <div key={rowIndex} style={{ display: "flex", alignItems: "center" }}>
-            
               <button
                 onClick={() => toggleRow(rowIndex)}
                 style={{ marginRight: "4px", fontSize: "0.8rem" }}
@@ -102,22 +101,32 @@ function App() {
                 ⬅
               </button>
 
-              {row.map((cell, colIndex) => (
-                <span
-                  key={colIndex}
-                  onClick={() => toggleCell(rowIndex, colIndex)}
-                  style={{
-                    cursor: "pointer",
-                    color: cell ? "black" : "lightgray",
-                  }}
-                >
-                  {cell ? "■" : "□"}
-                </span>
-              ))}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: `repeat(${cols}, minmax(20px, 1fr))`,
+                  gap: "1px",
+                  flex: 1,
+                }}
+              >
+                {row.map((cell, colIndex) => (
+                  <div
+                    key={colIndex}
+                    onClick={() => toggleCell(rowIndex, colIndex)}
+                    style={{
+                      aspectRatio: "1 / 1",
+                      background: cell ? "black" : "white",
+                      border: "1px solid #ccc",
+                      cursor: "pointer",
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           ))}
         </div>
       </div>
+
     </div>
   );
 }
