@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Menu from "./Menu";
 
 function App() {
   function createGrid(rows, cols) {
@@ -60,6 +61,7 @@ function App() {
   return (
     <div>
       <h1>Filet Crochet Custom Pattern Builder</h1>
+       <Menu />
 
       <div className="inputs" style={{ marginBottom: "1rem" }}>
         <label>
@@ -108,7 +110,7 @@ function App() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: `repeat(${cols}, minmax(20px, 1fr))`,
+              gridTemplateColumns: `repeat(${cols}, minmax(5px, 1fr))`,
               flex: 1,
             }}
           >
@@ -134,7 +136,7 @@ function App() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: `repeat(${cols}, minmax(20px, 1fr))`,
+              gridTemplateColumns: `repeat(${cols}, minmax(5px, 1fr))`,
               flex: 1,
             }}
           >
@@ -182,7 +184,7 @@ function App() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: `repeat(${cols}, minmax(20px, 1fr))`,
+                  gridTemplateColumns: `repeat(${cols}, minmax(5px, 1fr))`,
                   gap: "1px",
                   flex: 1,
                 }}
