@@ -4,30 +4,21 @@ function Menu() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div style={{ position: "fixed", top: "1rem", left: "1rem" }}>
+    <div className="fixed top-4 left-4 z-50">
       <button
         onClick={() => setOpen(!open)}
-        style={{
-          
-          cursor: "pointer",
-        }}
+        className="cursor-pointer text-2xl"
       >
         ☰
       </button>
 
       {/* Dropdown menu */}
       {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: "2rem",
-            left: 0
-          }}
-        >
-          <a href="#home" style={{ display: "block", padding: "0.5rem" }}>
+        <div className="absolute top-8 left-0">
+          <a href="#home" className="block px-4 py-2 hover:bg-gray-100">
             Home
           </a>
-          <a href="#patterns" style={{ display: "block", padding: "0.5rem" }}>
+          <a href="#patterns" className="block px-4 py-2 hover:bg-gray-100">
             Patterns
           </a>
         </div>
