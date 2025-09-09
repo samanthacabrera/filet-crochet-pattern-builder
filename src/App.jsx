@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Menu from "./Menu";
+import Grid from "./Grid";
+import Patterns from "./Patterns";
 
 function App() {
   function createGrid(rows, cols) {
-  return Array.from({ length: rows }, () => Array(cols).fill(0));
+    return Array.from({ length: rows }, () => Array(cols).fill(0));
   }
-  
-  const [rows, setRows] = useState("10"); 
-  const [cols, setCols] = useState("10"); 
+
+  const [rows, setRows] = useState("10");
+  const [cols, setCols] = useState("10");
   const [grid, setGrid] = useState(createGrid(10, 10));
   const [error, setError] = useState("");
 
@@ -59,152 +61,52 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Filet Crochet Custom Pattern Builder</h1>
-       <Menu />
+    <div className="text-center p-12">
+      <Menu />
 
-      <div className="inputs" style={{ marginBottom: "1rem" }}>
+      <h1 className="text-2xl mb-4">Filet Crochet Custom Pattern Builder</h1>
+
+      <div className="mb-4 space-x-4">
         <label>
-        rows: 
-        <input
-          type="number"
-          value={rows}
-          min={1}
-          max={100}
-          onChange={(e) => handleResize(e.target.value, cols)}
-        />
+          rows:
+          <input
+            type="number"
+            value={rows}
+            min={1}
+            max={100}
+            onChange={(e) => handleResize(e.target.value, cols)}
+            className="ml-2 border border-gray-300 rounded px-2 py-1"
+          />
         </label>
         <label>
-        columns:
-        <input
-          type="number"
-          value={cols}
-          min={1}
-          max={100}
-          onChange={(e) => handleResize(rows, e.target.value)}
-        />
+          columns:
+          <input
+            type="number"
+            value={cols}
+            min={1}
+            max={100}
+            onChange={(e) => handleResize(rows, e.target.value)}
+            className="ml-2 border border-gray-300 rounded px-2 py-1"
+          />
         </label>
       </div>
 
-      {error && (
-        <div style={{ color: "red", marginBottom: "1rem" }}>
-          {error}
-        </div>
-      )}
+      {error && <div className="text-red-600 mb-4">{error}</div>}
 
-      <div style={{ opacity: "50%", fontSize: "15px" }}>
+      <div className="opacity-50 text-sm mb-2">
         <p>Maximum grid size is 100x100</p>
       </div>
 
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "100vw",
-          height: "80vh",
-          overflow: "auto",
-          padding: "0.5rem",
-        }}
-      >
-        {/* col label */}
-        <div style={{ display: "flex", marginLeft: "4rem" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${cols}, minmax(5px, 1fr))`,
-              flex: 1,
-            }}
-          >
-            {Array.from({ length: cols }).map((_, colIndex) => (
-              <div
-                key={colIndex}
-                style={{
-                  textAlign: "center",
-                  fontSize: "0.75rem",
-                  color: "#555",
-                }}
-              >
-                {colIndex + 1}
-              </div>
-            ))}
-          </div>
-        </div>
+      <Grid
+        grid={grid}
+        rows={parseInt(rows)}
+        cols={parseInt(cols)}
+        toggleCell={toggleCell}
+        toggleRow={toggleRow}
+        toggleCol={toggleCol}
+      />
 
-        {/* col toggle */}
-        <div
-          style={{ display: "flex", marginLeft: "4rem", marginBottom: "4px" }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${cols}, minmax(5px, 1fr))`,
-              flex: 1,
-            }}
-          >
-            {Array.from({ length: cols }).map((_, colIndex) => (
-              <button
-                key={colIndex}
-                onClick={() => toggleCol(colIndex)}
-                style={{ fontSize: "0.8rem" }}
-              >
-                ⬇
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {grid
-          .map((row, rowIndex) => ({ row, rowIndex }))
-          .reverse()
-          .map(({ row, rowIndex }, displayIndex) => (
-            <div
-              key={rowIndex}
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              {/* row label */}
-              <div
-                style={{
-                  width: "2rem",
-                  textAlign: "right",
-                  marginRight: "4px",
-                  fontSize: "0.75rem",
-                  color: "#555",
-                }}
-              >
-                {rows - displayIndex}
-              </div>
-
-              {/* row toggle */}
-              <button
-                onClick={() => toggleRow(rowIndex)}
-                style={{ marginRight: "4px", fontSize: "0.8rem" }}
-              >
-                ⬅
-              </button>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: `repeat(${cols}, minmax(5px, 1fr))`,
-                  gap: "1px",
-                  flex: 1,
-                }}
-              >
-                {row.map((cell, colIndex) => (
-                  <div
-                    key={colIndex}
-                    onClick={() => toggleCell(rowIndex, colIndex)}
-                    style={{
-                      aspectRatio: "1 / 1",
-                      background: cell ? "black" : "white",
-                      border: "1px solid #ccc",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
-      </div>
+      <Patterns setGrid={setGrid} rows={parseInt(rows)} cols={parseInt(cols)}/>
     </div>
   );
 }

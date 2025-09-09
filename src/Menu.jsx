@@ -15,7 +15,7 @@ function Menu() {
       {/* Dropdown menu */}
       {open && (
         <div className="absolute top-8 left-0">
-          <a href="#home" className="block px-4 py-2 hover:bg-gray-100">
+          <a href="/" className="block px-4 py-2 hover:bg-gray-100">
             Home
           </a>
           <a href="#patterns" className="block px-4 py-2 hover:bg-gray-100">
