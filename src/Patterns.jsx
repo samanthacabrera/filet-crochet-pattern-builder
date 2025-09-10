@@ -18,10 +18,54 @@ function generateHeartPattern(rows, cols) {
   return pattern;
 }
 
+function generateCloverPattern(rows, cols) {
+  const pattern = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+  const centerX = cols / 2;
+  const centerY = rows / 2 + Math.floor(rows / 8); 
+  const radius = Math.min(rows, cols) / 6;
+  const offset = radius * 0.8;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const leaves = [
+        { x: centerX - offset, y: centerY - offset }, // top-left
+        { x: centerX + offset, y: centerY - offset }, // top-right
+        { x: centerX - offset, y: centerY + offset }, // bottom-left
+        { x: centerX + offset, y: centerY + offset }, // bottom-right
+      ];
+
+      // Check if cell is inside any leaf
+      const inLeaf = leaves.some(leaf => Math.hypot(c - leaf.x, r - leaf.y) <= radius);
+
+      // Stem 
+      const stemWidth = Math.max(1, Math.floor(cols / 40));
+      const stemHeight = Math.floor(rows / 3);
+      const stemBottom = centerY - radius; 
+      const inStem =
+        r >= stemBottom - stemHeight &&
+        r <= stemBottom &&
+        c >= centerX - Math.floor(stemWidth / 2) &&
+        c <= centerX + Math.floor(stemWidth / 2);
+
+      if (inLeaf || inStem) {
+        pattern[r][c] = 1;
+      }
+    }
+  }
+
+  return pattern;
+}
+
 function Patterns({ setGrid, rows, cols }) {
   const applyHeart = () => {
     const heart = generateHeartPattern(rows, cols);
     setGrid(heart);
+  };
+
+  const applyClover = () => {
+    const star = generateCloverPattern(rows, cols); 
+    setGrid(star);
   };
 
   return (
@@ -34,7 +78,13 @@ function Patterns({ setGrid, rows, cols }) {
           onClick={applyHeart}
           className="p-2 border rounded hover:bg-red-100"
         >
-          ❤️ Heart
+        ❤️ Heart
+        </button>
+        <button
+          onClick={applyClover}
+          className="p-2 border rounded hover:bg-yellow-100"
+        >
+        🍀 Clover
         </button>
       </div>
     </div>
