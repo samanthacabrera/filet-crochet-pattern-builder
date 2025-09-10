@@ -8,14 +8,14 @@ function App() {
     return Array.from({ length: rows }, () => Array(cols).fill(0));
   }
 
-  const [rows, setRows] = useState("10");
-  const [cols, setCols] = useState("10");
-  const [grid, setGrid] = useState(createGrid(10, 10));
+  const [rows, setRows] = useState("50");
+  const [cols, setCols] = useState("50");
+  const [grid, setGrid] = useState(createGrid(50, 50));
   const [error, setError] = useState("");
 
   const handleResize = (newRowsStr, newColsStr) => {
-    const newRows = parseInt(newRowsStr, 10);
-    const newCols = parseInt(newColsStr, 10);
+    const newRows = parseInt(newRowsStr, 50);
+    const newCols = parseInt(newColsStr, 50);
 
     if (!newRows || !newCols) {
       setRows(newRowsStr);

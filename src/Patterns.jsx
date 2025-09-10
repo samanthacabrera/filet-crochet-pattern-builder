@@ -1,27 +1,27 @@
+function generateHeartPattern(rows, cols) {
+  const pattern = Array.from({ length: rows }, () => Array(cols).fill(0));
 
-const heartPattern = [
-    [0, 0, 1, 0, 0],
-    [0,1,1,1,0],
-    [1,1,1,1,1],
-    [1,1,1,1,1],
-    [0,1,0,1,0],
-];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const x = (c / cols) * 3 - 1.5;
+      const y = (r / rows) * 3 - 1.5; 
+
+      // Heart equation
+      const value = Math.pow(x * x + y * y - 1, 3) - x * x * y * y * y;
+
+      if (value <= 0) {
+        pattern[r][c] = 1;
+      }
+    }
+  }
+
+  return pattern;
+}
 
 function Patterns({ setGrid, rows, cols }) {
-  const applyPattern = (pattern) => {
-    const newGrid = Array.from({ length: rows }, () => Array(cols).fill(0));
-    const offsetRow = Math.floor((rows - pattern.length) / 2);
-    const offsetCol = Math.floor((cols - pattern[0].length) / 2);
-
-    pattern.forEach((row, rIdx) => {
-      row.forEach((cell, cIdx) => {
-        if (cell && newGrid[offsetRow + rIdx] && newGrid[offsetRow + rIdx][offsetCol + cIdx] !== undefined) {
-          newGrid[offsetRow + rIdx][offsetCol + cIdx] = 1;
-        }
-      });
-    });
-
-    setGrid(newGrid);
+  const applyHeart = () => {
+    const heart = generateHeartPattern(rows, cols);
+    setGrid(heart);
   };
 
   return (
@@ -31,7 +31,7 @@ function Patterns({ setGrid, rows, cols }) {
 
       <div className="flex space-x-4">
         <button
-          onClick={() => applyPattern(heartPattern)}
+          onClick={applyHeart}
           className="p-2 border rounded hover:bg-red-100"
         >
           ❤️ Heart
