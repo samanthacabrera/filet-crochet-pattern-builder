@@ -57,6 +57,26 @@ function generateCloverPattern(rows, cols) {
   return pattern;
 }
 
+function generateMoonPattern(rows, cols) {
+  const pattern = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+  const centerX = cols / 2;
+  const centerY = rows / 2;
+  const radius = Math.min(rows, cols) / 3;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const dist1 = Math.hypot(c - centerX, r - centerY);
+      const dist2 = Math.hypot(c - (centerX + radius / 3), r - centerY);
+
+      if (dist1 <= radius && dist2 > radius / 1.2) {
+        pattern[r][c] = 1;
+      }
+    }
+  }
+  return pattern;
+}
+
 function Patterns({ setGrid, rows, cols }) {
   const applyHeart = () => {
     const heart = generateHeartPattern(rows, cols);
@@ -66,6 +86,11 @@ function Patterns({ setGrid, rows, cols }) {
   const applyClover = () => {
     const star = generateCloverPattern(rows, cols); 
     setGrid(star);
+  };
+
+  const applyMoon = () => {
+    const moon = generateMoonPattern(rows, cols); 
+    setGrid(moon);
   };
 
   return (
@@ -85,6 +110,12 @@ function Patterns({ setGrid, rows, cols }) {
           className="p-2 border rounded hover:bg-yellow-100"
         >
         🍀 Clover
+        </button>
+        <button
+          onClick={applyMoon}
+          className="p-2 border rounded hover:bg-gray-100"
+        >
+        🌙 Moon
         </button>
       </div>
     </div>
