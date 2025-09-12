@@ -14,8 +14,8 @@ function App() {
   const [error, setError] = useState("");
 
   const handleResize = (newRowsStr, newColsStr) => {
-    const newRows = parseInt(newRowsStr, 50);
-    const newCols = parseInt(newColsStr, 50);
+    const newRows = parseInt(newRowsStr, 10);
+    const newCols = parseInt(newColsStr, 10);
 
     if (!newRows || !newCols) {
       setRows(newRowsStr);
@@ -31,8 +31,10 @@ function App() {
     setError("");
     setRows(newRowsStr);
     setCols(newColsStr);
-    setGrid(createGrid(newRows, newCols));
+    setGrid(createGrid(newRows, newCols)); 
   };
+
+  const sizeOptions = Array.from({ length: 51 }, (_, i) => i + 50);
 
   const toggleCell = (row, col) => {
     setGrid((prev) => {
@@ -68,26 +70,32 @@ function App() {
 
       <div className="mb-4 space-x-4">
         <label>
-          rows:
-          <input
-            type="number"
+          Rows:
+          <select
             value={rows}
-            min={1}
-            max={100}
             onChange={(e) => handleResize(e.target.value, cols)}
             className="ml-2 border border-gray-300 rounded px-2 py-1"
-          />
+          >
+            {sizeOptions.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
         </label>
         <label>
-          columns:
-          <input
-            type="number"
+          Columns:
+          <select
             value={cols}
-            min={1}
-            max={100}
             onChange={(e) => handleResize(rows, e.target.value)}
             className="ml-2 border border-gray-300 rounded px-2 py-1"
-          />
+          >
+            {sizeOptions.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
         </label>
       </div>
 
