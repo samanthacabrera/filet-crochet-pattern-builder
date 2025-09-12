@@ -15,7 +15,7 @@ function Menu() {
 
       {/* Dropdown menu */}
       {open && (
-        <div className="absolute top-10 left-0 w-40 rounded-xl border border-gray-200 bg-white shadow-lg">
+        <div className="absolute top-10 left-0 w-40 rounded-xl border border-gray-200 bg-white shadow-lg text-left">
           <a
             href="/"
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-t-xl"
@@ -27,6 +27,12 @@ function Menu() {
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-b-xl"
           >
             Patterns
+          </a>
+          <a
+            href="#howToUse"
+            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-b-xl"
+          >
+            How To Use
           </a>
         </div>
       )}

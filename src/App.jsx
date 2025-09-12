@@ -2,6 +2,7 @@ import { useState } from "react";
 import Menu from "./Menu";
 import Grid from "./Grid";
 import Patterns from "./Patterns";
+import HowToUse from "./HowToUse";
 
 function App() {
   function createGrid(rows, cols) {
@@ -68,7 +69,7 @@ function App() {
 
       <h1 className="text-2xl mb-4">Filet Crochet Custom Pattern Builder</h1>
 
-      <div className="mb-4 space-x-4">
+      <div className="mb-2 space-x-4">
         <label>
           Rows:
           <select
@@ -114,7 +115,9 @@ function App() {
         toggleCol={toggleCol}
       />
 
-      <Patterns setGrid={setGrid} rows={parseInt(rows)} cols={parseInt(cols)}/>
+      <Patterns setGrid={setGrid} rows={parseInt(rows)} cols={parseInt(cols)} />
+      
+      <HowToUse />
     </div>
   );
 }
