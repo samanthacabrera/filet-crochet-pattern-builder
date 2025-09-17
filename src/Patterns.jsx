@@ -1,17 +1,16 @@
+import { exportAsText, downloadTextFile } from "./ExportPattern";
+
 function generateHeartPattern(rows, cols) {
   const pattern = Array.from({ length: rows }, () => Array(cols).fill(0));
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const x = (c / cols) * 3 - 1.5;
-      const y = (r / rows) * 3 - 1.5; 
+      const y = (r / rows) * 3 - 1.5;
 
       // Heart equation
       const value = Math.pow(x * x + y * y - 1, 3) - x * x * y * y * y;
-
-      if (value <= 0) {
-        pattern[r][c] = 1;
-      }
+      if (value <= 0) pattern[r][c] = 1;
     }
   }
 
@@ -22,35 +21,33 @@ function generateCloverPattern(rows, cols) {
   const pattern = Array.from({ length: rows }, () => Array(cols).fill(0));
 
   const centerX = cols / 2;
-  const centerY = rows / 2 + Math.floor(rows / 8); 
+  const centerY = rows / 2 + Math.floor(rows / 8);
   const radius = Math.min(rows, cols) / 6;
   const offset = radius * 0.8;
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       const leaves = [
-        { x: centerX - offset, y: centerY - offset }, // top-left
-        { x: centerX + offset, y: centerY - offset }, // top-right
-        { x: centerX - offset, y: centerY + offset }, // bottom-left
-        { x: centerX + offset, y: centerY + offset }, // bottom-right
+        { x: centerX - offset, y: centerY - offset },
+        { x: centerX + offset, y: centerY - offset },
+        { x: centerX - offset, y: centerY + offset },
+        { x: centerX + offset, y: centerY + offset },
       ];
 
-      // Check if cell is inside any leaf
-      const inLeaf = leaves.some(leaf => Math.hypot(c - leaf.x, r - leaf.y) <= radius);
+      const inLeaf = leaves.some(
+        leaf => Math.hypot(c - leaf.x, r - leaf.y) <= radius
+      );
 
-      // Stem 
       const stemWidth = Math.max(1, Math.floor(cols / 40));
       const stemHeight = Math.floor(rows / 3);
-      const stemBottom = centerY - radius; 
+      const stemBottom = centerY - radius;
       const inStem =
         r >= stemBottom - stemHeight &&
         r <= stemBottom &&
         c >= centerX - Math.floor(stemWidth / 2) &&
         c <= centerX + Math.floor(stemWidth / 2);
 
-      if (inLeaf || inStem) {
-        pattern[r][c] = 1;
-      }
+      if (inLeaf || inStem) pattern[r][c] = 1;
     }
   }
 
@@ -74,48 +71,43 @@ function generateMoonPattern(rows, cols) {
       }
     }
   }
+
   return pattern;
 }
 
 function Patterns({ setGrid, rows, cols }) {
-  const applyHeart = () => {
-    const heart = generateHeartPattern(rows, cols);
-    setGrid(heart);
-  };
+  const handlePattern = (generator, name) => {
+    const pattern = generator(rows, cols);
+    setGrid(pattern);
 
-  const applyClover = () => {
-    const star = generateCloverPattern(rows, cols); 
-    setGrid(star);
-  };
-
-  const applyMoon = () => {
-    const moon = generateMoonPattern(rows, cols); 
-    setGrid(moon);
+    // Export as text + trigger download
+    const textChart = exportAsText(pattern);
+    downloadTextFile(`${name}-pattern.txt`, textChart);
   };
 
   return (
     <div id="patterns" className="p-4 mt-16 text-left">
       <h2 className="text-xl mb-4">Patterns</h2>
-      <p className="mb-2">Click a pattern to insert it into the grid:</p>
+      <p className="mb-2">Click a pattern to insert and download its chart:</p>
 
       <div className="flex space-x-4">
         <button
-          onClick={applyHeart}
+          onClick={() => handlePattern(generateHeartPattern, "heart")}
           className="p-2 border rounded hover:bg-red-100"
         >
-        ❤️ Heart
+          ❤️ Heart
         </button>
         <button
-          onClick={applyClover}
+          onClick={() => handlePattern(generateCloverPattern, "clover")}
           className="p-2 border rounded hover:bg-yellow-100"
         >
-        🍀 Clover
+          🍀 Clover
         </button>
         <button
-          onClick={applyMoon}
+          onClick={() => handlePattern(generateMoonPattern, "moon")}
           className="p-2 border rounded hover:bg-gray-100"
         >
-        🌙 Moon
+          🌙 Moon
         </button>
       </div>
     </div>
